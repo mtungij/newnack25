@@ -2169,21 +2169,57 @@ $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$spo
 
     public function aprove_loan($loan_id){
     	$this->load->helper('string');
+      $this->load->model('queries');
+      $comp_id = $this->session->userdata('comp_id');
+      $compdata = $this->queries->get_companyData($comp_id);
+      //   echo "<pre>";
+      // print_r($compdata);
+      //  echo "</pre>";
+      //   exit();
             //Prepare array of user data
     	$day = date('Y-m-d H:i');
+      $loan_details = $this->queries->get_loansms($loan_id);
+      
+      // echo "<pre>";
+      // print_r($loan_details);
+      //  echo "</pre>";
+      //   exit();
+
+      if ($loan_details) {
+          // Correctly accessing database fields
+          $first_name = $loan_details->f_name;  
+          $m_name = $loan_details->m_name;  
+          $l_name = $loan_details->l_name;  
+          $phone = $loan_details->phone_no; // Ensure this column exists
+          $amount = $loan_details->how_loan;
+          $company_name = $compdata->comp_name;
+      
+      } else {
+          echo "Loan details not found!";
+      }
+       
+    
+     
+
+      $day = date('Y-m-d H:i');
+      $approval_code = random_string('numeric', 3);
+       
             $data = array(
             'loan_aprove'=> $this->input->post('how_loan'),
             'penat_status'=> $this->input->post('penat_status'),
             'loan_status'=> 'aproved',
             'loan_day' => $day,
-            'code' => random_string('numeric',4),
+            'code' => $approval_code,
            
             );
             //   echo "<pre>";
             // print_r($data);
             //  echo "</pre>";
             //   exit();
-            
+            $massage = "Mpendwa $first_name $m_name $l_name, mkopo wako uliopitishwa kutoka $company_name ni Tsh $amount. Namba yako ya uthibitisho kwa ajili ya kupokea mkopo ni: $approval_code";
+        
+       
+           $this->sendsms($phone, $massage);
             //Pass user data to model
             $this->load->model('queries'); 
             $data = $this->queries->update_status($loan_id,$data);
@@ -2195,6 +2231,17 @@ $this->load->view('admin/search_customer',['customer'=>$customer,'sponser'=>$spo
             //   exit();
             //Storing insertion status message.
             if($data){
+
+             
+              $massage = "Mpendwa $first_name $m_name $l_name, mkopo wako uliokubaliwa ni Tsh $amount. Namba yako ya uthibitisho kwa ajili ya kupokea mkopo ni: $approval_code. Asante!";
+        
+            //    echo "<pre>";
+            // print_r($massage);
+            //  echo "</pre>";
+            //   exit();
+            //Storing in
+              // Call SMS function
+              $this->send_sms($phone, $massage);
             	
                 $this->session->set_flashdata('massage','Loan Approved successfully');
             }else{
@@ -2630,7 +2677,9 @@ public function disburse($loan_id){
             //  echo "</pre>";
             //   exit();
            //send sms function
-         $sms ='Ndugu,'.' '.$full_name .' '.'Tunapenda Kukutaarifu Kuwa Mkopo wako Wa Tsh.'.number_format($loan_aproved) . ' '.'Umepitishwa'. ' '. $comp_name.' '.' Inakujari Mteja';
+           $sms = 'Ndugu, ' . $full_name . ', kiasi cha Tsh ' . number_format($loan_aproved) . ' umepitishwa. ' . $comp_name . ' itatambua kiasi hiki ulichoomba ndicho kitaambatana na riba kwenye deni, na sivinginevyo. Kama sio kiasi hiki ulichoomba/changamoto, tafadhali tupigie 0679420326/0629364847/0620558924/0753979112.';
+
+
            $massage = $sms;
            $phone = $phones;
                // print_r($massage);

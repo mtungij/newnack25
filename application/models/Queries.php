@@ -7105,7 +7105,22 @@ public function fetch_today_deposit_monthly_comp($comp_id){
 		}
 		return 0; 
 	}
-
+ public function get_loansms($loan_id) {
+		$loan = $this->db->query("
+			SELECT * 
+			FROM tbl_loans l
+			LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id
+			LEFT JOIN tbl_loan_category lt ON lt.category_id = l.category_id
+			LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id
+			LEFT JOIN tbl_sub_customer s ON s.customer_id = l.customer_id
+			LEFT JOIN tbl_region r ON r.region_id = c.region_id
+			LEFT JOIN tbl_account_type at ON at.account_id = s.account_id
+			LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id
+			WHERE l.loan_id = '$loan_id'
+			LIMIT 1
+		");
+		return $loan->row();
+	}
 
 	public function get_total_miamala_hewa($blanch_id,$date){
   $miamala = $this->db->query("SELECT SUM(m.amount) AS total_miamala FROM tbl_miamala m WHERE m.blanch_id = '$blanch_id' AND m.date = '$date' GROUP BY m.blanch_id");

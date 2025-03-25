@@ -2039,7 +2039,7 @@ public function create_withdrow_balance($customer_id){
     $this->form_validation->set_rules('method','method','required');
     $this->form_validation->set_rules('withdrow','withdrow','required');
     $this->form_validation->set_rules('loan_status','loan status','required');
-    // $this->form_validation->set_rules('code','Code','required');
+    $this->form_validation->set_rules('code','Code','required');
     $this->form_validation->set_rules('with_date','with date','required');
     $this->form_validation->set_rules('description','description','required');
     if ($this->form_validation->run() ) {
@@ -2052,7 +2052,7 @@ public function create_withdrow_balance($customer_id){
           $comp_id = $data['comp_id'];
           $description = $data['description'];
           $method = $data['method'];
-          // $new_code = $data['code'];
+          $new_code = $data['code'];
           $with_date = $data['with_date'];
           $loan_status = 'withdrawal';
           $new_balance = $withdrow_newbalance;
@@ -2078,7 +2078,7 @@ public function create_withdrow_balance($customer_id){
           $disburse_day = $day_loan->disburse_day;
           $dis_day = $day_loan->dis_date;
           $session = $day_loan->session;
-          // $code = $day_loan->code;
+          $code = $day_loan->code;
           $empl_id = $day_loan->empl_id;
           $loan_aprove = $day_loan->loan_aprove;
           $restoration = $day_loan->restration;

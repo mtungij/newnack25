@@ -345,11 +345,12 @@
 </div>
 
 <div class="col-lg-4 form-group-sub">
-    <label class="form-control-label"><b style="color:red;">Charge Loan Penalty?</b></label>
-    <select type="text" name="penat_status" class="form-control input-sm" required style="color: red; border-color: red;" disabled>
-        <option value="YES" selected>YES</option>
-        <option value="NO">NO</option>
-    </select>
+<label  class="form-control-label"><b style="color:red;">Charge Loan Penalty?</b></label>
+ <select type="text" name="penat_status" class="form-control input-sm" required style="color: red; border-color: red;">
+    <option value="">Select Charge Loan Penalty</option>
+    <option value="YES">YES</option>
+    <option value="NO">NO</option>
+ </select>
 </div>
 
 
