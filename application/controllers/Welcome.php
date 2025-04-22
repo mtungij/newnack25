@@ -837,7 +837,7 @@ public function sendsms($phone,$massage){
 	//public function sendsms(){
 	//$phone = '255628323760';
 	//$massage = 'mapenzi yanauwa';
-	$api_key = 'UYgMu5H8.rT98BjHoCeZvL/VJv';
+	$api_key = 'Su33xZCzIDPALbL4';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL,"https://galadove.mikoposoft.com/api/v1/receive/action/send/sms");
 curl_setopt($ch, CURLOPT_POST, 1);
